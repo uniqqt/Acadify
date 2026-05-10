@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${key}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -30,11 +30,12 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!response.ok) {
+      const geminiMsg = data.error?.message || '';
       if (response.status === 429)
-        return res.status(429).json({ error: 'Daily AI limit reached (1,500 questions). Resets tomorrow — try again then.' });
-      if (response.status === 403)
-        return res.status(403).json({ error: 'Server API key is invalid. Contact the app owner.' });
-      return res.status(response.status).json({ error: data.error?.message || 'AI API error.' });
+        return res.status(429).json({ error: geminiMsg.includes('quota') || geminiMsg.includes('limit') ? 'Daily AI limit reached (1,500 questions). Resets tomorrow — try again then.' : 'AI is busy — wait a few seconds and try again.' });
+      if (response.status === 403 || response.status === 400)
+        return res.status(response.status).json({ error: 'AI service error. Contact the app owner. Details: ' + geminiMsg });
+      return res.status(response.status).json({ error: geminiMsg || 'AI API error.' });
     }
 
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
