@@ -3,6 +3,7 @@ import {
   Stethoscope, Heart, Baby, Activity, Brain, Users,
   Calculator, Atom, Layers, Droplets, Thermometer, TrendingUp,
   Globe, Search, FileText, Briefcase, User, GraduationCap,
+  Code, GitBranch, Cpu, Network, Hash,
 } from 'lucide-react';
 
 const ICONS = {
@@ -10,6 +11,7 @@ const ICONS = {
   Stethoscope, Heart, Baby, Activity, Brain, Users,
   Calculator, Atom, Layers, Droplets, Thermometer, TrendingUp,
   Globe, Search, FileText, Briefcase, User, GraduationCap,
+  Code, GitBranch, Cpu, Network, Hash,
 };
 
 export default function TopicIcon({ name, size = 20, color, style }) {

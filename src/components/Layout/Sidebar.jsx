@@ -14,6 +14,11 @@ const COURSE_LABELS = {
   law: 'Law',
   nursing: 'Nursing',
   engineering: 'Engineering',
+  'computer-engineering': 'Computer Engineering',
+  'civil-engineering': 'Civil Engineering',
+  'mechanical-engineering': 'Mechanical Engineering',
+  'electrical-engineering': 'Electrical Engineering',
+  'electronics-engineering': 'Electronics Engineering',
   'social-work': 'Social Work',
 };
 

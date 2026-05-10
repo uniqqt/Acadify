@@ -9,7 +9,7 @@ import { URGENT_DAYS } from '../constants';
 import { getTopicsForCourse } from '../data/courseData';
 import TopicIcon from '../components/TopicIcon';
 
-const COURSE_LABELS = { law: 'Law', nursing: 'Nursing', engineering: 'Engineering', 'social-work': 'Social Work' };
+const COURSE_LABELS = { law: 'Law', nursing: 'Nursing', engineering: 'Engineering', 'computer-engineering': 'Computer Engineering', 'civil-engineering': 'Civil Engineering', 'mechanical-engineering': 'Mechanical Engineering', 'electrical-engineering': 'Electrical Engineering', 'electronics-engineering': 'Electronics Engineering', 'social-work': 'Social Work' };
 
 export default function Dashboard() {
   const { user } = useAuth();

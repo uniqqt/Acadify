@@ -6,7 +6,7 @@ import { getProgress } from '../utils/storage';
 import { getTopicsForCourse } from '../data/courseData';
 import LawCard from '../components/Study/LawCard';
 
-const COURSE_LABELS = { law: 'Law', nursing: 'Nursing', engineering: 'Engineering', 'social-work': 'Social Work' };
+const COURSE_LABELS = { law: 'Law', nursing: 'Nursing', engineering: 'Engineering', 'computer-engineering': 'Computer Engineering', 'civil-engineering': 'Civil Engineering', 'mechanical-engineering': 'Mechanical Engineering', 'electrical-engineering': 'Electrical Engineering', 'electronics-engineering': 'Electronics Engineering', 'social-work': 'Social Work' };
 
 export default function Study() {
   const { user } = useAuth();

@@ -4,6 +4,8 @@ import NURSING_TOPICS from './nursing';
 import NURSING_QUIZZES from './nursingQuizzes';
 import ENGINEERING_TOPICS from './engineering';
 import ENGINEERING_QUIZZES from './engineeringQuizzes';
+import COMPUTER_ENGINEERING_TOPICS from './computerEngineering';
+import COMPUTER_ENGINEERING_QUIZZES from './computerEngineeringQuizzes';
 import SOCIAL_WORK_TOPICS from './socialWork';
 import SOCIAL_WORK_QUIZZES from './socialWorkQuizzes';
 
@@ -11,6 +13,11 @@ export function getTopicsForCourse(course) {
   switch ((course || '').toLowerCase().trim()) {
     case 'nursing': return NURSING_TOPICS;
     case 'engineering': return ENGINEERING_TOPICS;
+    case 'computer-engineering': return COMPUTER_ENGINEERING_TOPICS;
+    case 'civil-engineering': return ENGINEERING_TOPICS;
+    case 'mechanical-engineering': return ENGINEERING_TOPICS;
+    case 'electrical-engineering': return ENGINEERING_TOPICS;
+    case 'electronics-engineering': return ENGINEERING_TOPICS;
     case 'social-work': return SOCIAL_WORK_TOPICS;
     default: return LAWS;
   }
@@ -20,6 +27,11 @@ export function getQuizzesForCourse(course) {
   switch ((course || '').toLowerCase().trim()) {
     case 'nursing': return NURSING_QUIZZES;
     case 'engineering': return ENGINEERING_QUIZZES;
+    case 'computer-engineering': return COMPUTER_ENGINEERING_QUIZZES;
+    case 'civil-engineering': return ENGINEERING_QUIZZES;
+    case 'mechanical-engineering': return ENGINEERING_QUIZZES;
+    case 'electrical-engineering': return ENGINEERING_QUIZZES;
+    case 'electronics-engineering': return ENGINEERING_QUIZZES;
     case 'social-work': return SOCIAL_WORK_QUIZZES;
     default: return QUIZZES;
   }

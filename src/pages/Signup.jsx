@@ -10,7 +10,7 @@ export default function Signup() {
   const { theme } = useTheme();
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '', course: 'law', customCourse: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '', course: 'law', engSpecialty: '', customCourse: '' });
   const [showPass, setShowPass] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -23,6 +23,7 @@ export default function Signup() {
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email address.';
     if (!form.password || form.password.length < 6) e.password = 'Password must be at least 6 characters.';
     if (form.password !== form.confirm) e.confirm = 'Passwords do not match.';
+    if (form.course === 'engineering' && !form.engSpecialty) e.engSpecialty = 'Please select your engineering specialization.';
     if (form.course === 'custom' && !form.customCourse.trim()) e.customCourse = 'Please specify your course.';
     return e;
   };
@@ -32,7 +33,11 @@ export default function Signup() {
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setLoading(true);
-    const ok = await signup(form);
+    const finalForm = {
+      ...form,
+      course: form.course === 'engineering' ? form.engSpecialty : form.course,
+    };
+    const ok = await signup(finalForm);
     setLoading(false);
     if (ok) navigate('/dashboard');
   };
@@ -116,6 +121,29 @@ export default function Signup() {
                 ))}
               </select>
             </div>
+
+            {/* Engineering specialization */}
+            {form.course === 'engineering' && (
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+                  Engineering Specialization
+                </label>
+                <select
+                  value={form.engSpecialty}
+                  onChange={set('engSpecialty')}
+                  className={inputCls}
+                  style={{ ...inputBase, border: `1.5px solid ${errors.engSpecialty ? '#dc2626' : '#e5e7eb'}` }}
+                >
+                  <option value="">— Select specialization —</option>
+                  <option value="computer-engineering">Computer Engineering</option>
+                  <option value="civil-engineering">Civil Engineering</option>
+                  <option value="mechanical-engineering">Mechanical Engineering</option>
+                  <option value="electrical-engineering">Electrical Engineering</option>
+                  <option value="electronics-engineering">Electronics Engineering (ECE)</option>
+                </select>
+                {errors.engSpecialty && <p className="text-xs text-red-500 mt-1">{errors.engSpecialty}</p>}
+              </div>
+            )}
 
             {/* Custom course */}
             {form.course === 'custom' && (
