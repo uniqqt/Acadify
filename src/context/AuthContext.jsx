@@ -23,6 +23,7 @@ export function AuthProvider({ children }) {
         name: profile.name,
         course: profile.course,
         avatar: profile.avatar,
+        createdAt: profile.created_at,
         streak: {
           current: profile.streak_current || 0,
           longest: profile.streak_longest || 0,

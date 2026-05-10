@@ -72,7 +72,9 @@ export default function Dashboard() {
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
           <h2 className="text-2xl font-black" style={{ color: theme.text }}>
-            Hello, {user?.name?.split(' ')[0] || 'Student'}
+            {user?.createdAt && new Date() - new Date(user.createdAt) < 1000 * 60 * 60 * 24
+              ? `Welcome to Acadify, ${user?.name?.split(' ')[0] || 'Student'}!`
+              : `Welcome back, ${user?.name?.split(' ')[0] || 'Student'}!`}
           </h2>
           <p className="text-sm mt-1" style={{ color: theme.textMuted }}>
             {new Date().toLocaleDateString('en-PH', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
