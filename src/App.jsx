@@ -11,6 +11,7 @@ import Study from './pages/Study';
 import StudyDetail from './pages/StudyDetail';
 import Quiz from './pages/Quiz';
 import QuizSession from './pages/QuizSession';
+import Notes from './pages/Notes';
 
 // ── Protected layout (requires login) ────────────────────────────────────────
 function ProtectedLayout() {
@@ -60,6 +61,7 @@ function AppRoutes() {
         <Route path="/study/:lawId" element={<StudyDetail />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/quiz/:lawId" element={<QuizSession />} />
+        <Route path="/notes" element={<Notes />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

@@ -152,6 +152,45 @@ export const updateStreak = async (userId) => {
   return { current: newCurrent, longest: updated.streak_longest, lastDate: today };
 };
 
+// ── Notes ─────────────────────────────────────────────────────────────────────
+export const getNotes = async (userId) => {
+  if (!userId) return [];
+  const { data, error } = await supabase
+    .from('notes')
+    .select('*')
+    .eq('user_id', userId)
+    .order('updated_at', { ascending: false });
+  if (error) { console.error('getNotes:', error); return []; }
+  return (data || []).map((r) => ({
+    id: r.id,
+    title: r.title,
+    content: r.content,
+    topicId: r.topic_id,
+    createdAt: r.created_at,
+    updatedAt: r.updated_at,
+  }));
+};
+
+export const saveNote = async (userId, note) => {
+  const now = new Date().toISOString();
+  const { data, error } = await supabase.from('notes').upsert({
+    id: note.id,
+    user_id: userId,
+    title: note.title || 'Untitled',
+    content: note.content || '',
+    topic_id: note.topicId || null,
+    updated_at: now,
+    ...(note.createdAt ? {} : { created_at: now }),
+  }, { onConflict: 'id' }).select().single();
+  if (error) { console.error('saveNote:', error); return null; }
+  return data;
+};
+
+export const deleteNote = async (noteId) => {
+  const { error } = await supabase.from('notes').delete().eq('id', noteId);
+  if (error) console.error('deleteNote:', error);
+};
+
 // ── Notifications Seen (UI-only, stays in localStorage) ───────────────────────
 export const getSeenNotifs = (userId) => {
   try { return JSON.parse(localStorage.getItem(`sc_notifs_${userId}`)) || []; }

@@ -79,6 +79,20 @@ alter table quiz_results enable row level security;
 create policy "Users manage own quiz results" on quiz_results
   for all using (auth.uid() = user_id);
 
+-- Notes
+create table if not exists notes (
+  id text primary key,
+  user_id uuid references auth.users on delete cascade not null,
+  title text not null default 'Untitled',
+  content text default '',
+  topic_id text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+alter table notes enable row level security;
+create policy "Users manage own notes" on notes
+  for all using (auth.uid() = user_id);
+
 -- Highlights
 create table if not exists highlights (
   id text primary key,

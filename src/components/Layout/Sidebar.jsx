@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, CheckSquare, BookOpen, Brain, LogOut, GraduationCap, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, CheckSquare, BookOpen, Brain, LogOut, GraduationCap, ChevronRight, FileText } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { to: '/tasks', icon: CheckSquare, label: 'Tasks' },
   { to: '/study', icon: BookOpen, label: 'Study Materials' },
   { to: '/quiz', icon: Brain, label: 'Practice Quiz' },
+  { to: '/notes', icon: FileText, label: 'My Notes' },
 ];
 
 const COURSE_LABELS = {
