@@ -20,7 +20,14 @@ export default async function handler(req, res) {
     ...messages,
   ];
 
-  const models = ['gemini-1.5-flash', 'gemini-1.5-flash-8b', 'gemini-pro'];
+  const models = [
+    'gemini-2.0-flash',
+    'gemini-2.0-flash-lite',
+    'gemini-1.5-flash',
+    'gemini-1.5-flash-8b',
+  ];
+
+  let lastError = '';
 
   for (const model of models) {
     try {
@@ -40,16 +47,23 @@ export default async function handler(req, res) {
 
       if (response.status === 404) {
         console.error(`Model ${model} not found:`, JSON.stringify(data));
+        lastError = `Model ${model} not found`;
         continue;
       }
 
       if (!response.ok) {
         const geminiMsg = data.error?.message || '';
+        console.error(`Model ${model} error ${response.status}:`, geminiMsg);
         if (response.status === 429)
           return res.status(429).json({ error: 'AI is busy — wait a few seconds and try again.' });
+        if (response.status === 400) {
+          lastError = geminiMsg;
+          continue;
+        }
         if (response.status === 403)
-          return res.status(403).json({ error: 'API key error. Contact the app owner.' });
-        return res.status(response.status).json({ error: geminiMsg || 'AI API error.' });
+          return res.status(403).json({ error: 'Gemini API key is invalid or the Generative Language API is not enabled. Go to console.cloud.google.com → APIs & Services → enable "Generative Language API", then redeploy.' });
+        lastError = geminiMsg || `HTTP ${response.status}`;
+        continue;
       }
 
       const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
@@ -57,9 +71,11 @@ export default async function handler(req, res) {
 
       return res.status(200).json({ text });
     } catch (err) {
-      continue; // try next model on network error
+      console.error(`Model ${model} network error:`, err.message);
+      lastError = err.message;
+      continue;
     }
   }
 
-  return res.status(500).json({ error: 'API key not authorized for Gemini. Go to aistudio.google.com, create a new API key, and update GEMINI_API_KEY in Vercel.' });
+  return res.status(500).json({ error: `AI unavailable. Last error: ${lastError}. Ensure the Generative Language API is enabled at console.cloud.google.com and GEMINI_API_KEY is set in Vercel.` });
 }
