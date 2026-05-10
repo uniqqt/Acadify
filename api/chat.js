@@ -38,7 +38,10 @@ export default async function handler(req, res) {
 
       const data = await response.json();
 
-      if (response.status === 404) continue; // try next model
+      if (response.status === 404) {
+        console.error(`Model ${model} not found:`, JSON.stringify(data));
+        continue;
+      }
 
       if (!response.ok) {
         const geminiMsg = data.error?.message || '';
@@ -58,5 +61,5 @@ export default async function handler(req, res) {
     }
   }
 
-  return res.status(500).json({ error: 'All AI models unavailable. Please try again later.' });
+  return res.status(500).json({ error: 'API key not authorized for Gemini. Go to aistudio.google.com, create a new API key, and update GEMINI_API_KEY in Vercel.' });
 }
